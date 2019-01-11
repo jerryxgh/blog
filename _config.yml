@@ -8,7 +8,7 @@ subtitle: 自强不息，厚德载物
 description: jerryxgh的个人网站
 keywords: programmer,java,c
 author: jerryxgh
-language: zh-Hans
+language: zh-CN
 timezone:
 
 # URL
@@ -79,3 +79,45 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type:
+
+# Added by xgh
+theme_config:
+  # ---------------------------------------------------------------
+  # Scheme Settings
+  # ---------------------------------------------------------------
+  scheme: Gemini
+
+  # ---------------------------------------------------------------
+  # SEO Settings
+  # ---------------------------------------------------------------
+  seo: true
+
+  # ---------------------------------------------------------------
+  # Menu Settings
+  # ---------------------------------------------------------------
+  home: / || home
+  about: /about/ || user
+  tags: /tags/ || tags
+  categories: /categories/ || th
+  archives: /archives/ || archive
+  #schedule: /schedule/ || calendar
+  #sitemap: /sitemap.xml || sitemap
+  # commonweal: /404/ || heartbeat
+
+  # Sidebar Avatar
+  avatar:
+    # in theme directory(source/images): /images/avatar.gif
+    # in site  directory(source/uploads): /uploads/avatar.gif
+    # You can also use other linking images.
+    url: /uploads/avatar.png
+    # If true, the avatar would be dispalyed in circle.
+    rounded: false
+    # The value of opacity should be choose from 0 to 1 to set the opacity of the avatar.
+    opacity: 1
+    # If true, the avatar would be rotated with the cursor.
+    rotated: false
+
+
+  badges: true
+
+# Added by xgh ended here
