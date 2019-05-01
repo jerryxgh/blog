@@ -88,7 +88,12 @@ fi
 `~/.profile`只用来配置环境变量，需要满足加载幂等性，即无论被加载了多少遍，效果都一样。
 
 ### IntelliJ IEDA
-IDEA几乎一统Java IDE的天下了，记得之前写C的时候，编辑器五花八门，Emacs、Vim、Source Edit等等各种都有人用，后来搞Java发现只有一个：IDEA。我是Emacs+Evil，切换到IDEA必须安装的插件就是IdeaVim。
+IDEA几乎一统Java IDE的天下了，记得之前写C的时候，编辑器五花八门，Emacs、Vim、Source Edit等等各种都有人用，后来搞Java发现只有一个：IDEA。
+Idea支持插件扩展，这里记录下我使用的插件：
+* IdeaVim
+  我是个Emacs控，平时的文本编辑、GTD等都是在Emacs中完成的，同时我也是Vim控，希望Vim的高效，因此我是用Emacs+Evil的方案搭建C语言的开发环境的。Java用Emacs不太方便，切换到IDEA必须安装的插件就是IdeaVim。
+* VisualVm Launcher
+  方便本地做Java的app profiling。
 
 ### git
 git就不多说了，必备。
