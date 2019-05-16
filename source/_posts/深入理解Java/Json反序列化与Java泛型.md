@@ -2,6 +2,8 @@
 title: Json反序列化与Java泛型
 date: 2019-03-18 22:50:28
 tags:
+- original
+- 原创
 - java
 - generic
 - json
@@ -18,7 +20,7 @@ Java的JSON库有很多，本文分析google的Gson和alibaba的fastjson，在Ja
     "2147483647"
 ]
 ```
-用fastjson在不指定类型的情况下解析，下面的代码输出啥：
+用fastjson，不指定类型的情况下进行解析，下面的代码输出啥：
 ```java
 JSON.parseArray(s).forEach(o -> { System.out.println(o.getClass()); });
 ```
