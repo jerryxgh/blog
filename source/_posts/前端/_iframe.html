@@ -1,0 +1,29 @@
+<!doctype html>
+
+<html lang="zh-CN">
+  <head>
+    <title>Test CRO IFrame</title>
+
+    <meta charset="utf-8">
+    <meta name="description" content="Test CRO IFrame">
+    <meta name="author" content="jerryxgh">
+    <script type="text/javascript">
+     window.addEventListener("message", receiveMessage, false);
+
+     function receiveMessage(event) {
+         console.log(event);
+         event.source.postMessage("got your message", 'http://iframeinner.com:8080')
+     }
+    </script>
+  </head>
+
+  <body>
+    <iframe id="inline-frame-id"
+            title="Inline Frame Example"
+            width="300"
+            height="200"
+            name="inner-frame"
+            src="http://iframeinner.com:8080/_iframe_inner.html">
+    </iframe>
+  </body>
+</html>

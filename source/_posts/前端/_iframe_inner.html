@@ -1,0 +1,24 @@
+<!doctype html>
+
+<html lang="zh-CN">
+    <head>
+        <title>Test CRO IFrame Inner Page</title>
+
+        <meta charset="utf-8">
+        <meta name="description" content="Test CRO IFrame">
+        <meta name="author" content="jerryxgh">
+        <script type="text/javascript">
+         window.addEventListener("message", receiveMessage, false);
+
+         function receiveMessage(event) {
+             console.log(event);
+         }
+        </script>
+    </head>
+
+    <body>
+        你好，我是嵌入的iframe页面
+        <br/>
+        <button onclick="window.parent.postMessage('message from iframe inner', 'http://iframe.com:8080')">按我给父页面发消息</button>
+    </body>
+</html>

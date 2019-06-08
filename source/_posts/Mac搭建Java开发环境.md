@@ -109,6 +109,15 @@ emacs的用户真的很少，但是用了就离不开啦。
 ```sh
 brew cask install emacs
 ```
+## http-server
+有时候做一些实验，需要快速搭建http静态服务器，用`http-server`一条命令就能搞定：
+```sh
+cd <target directory> && http-server
+```
+so easy ;D，用下面的命令安装`http-server`即可：
+```sh
+npm install http-server -g
+```
 
 # 参考资料
 1. mac安装Java：https://stackoverflow.com/questions/24342886/how-to-install-java-8-on-mac
