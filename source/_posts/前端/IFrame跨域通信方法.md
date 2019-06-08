@@ -135,6 +135,9 @@ function receiveMessage(event) {
 ![IFrame实验截图](iframe_test_snapshot.jpg "IFrame实验截图")
 子页面的按钮点击之后，向父页面发送了一条消息，内容是"message from iframe inner"，父页面收到消息之后，向子页面回复了一条消息"got your message"，从图中看出消息的确发送和接收成功了。
 
+# 总结
+通过`window.postMessage`和`window.addEventListener`，可以实现安全的跨域iframe页面通信，但是需要注意https协议页面，无法iframe嵌入http协议的的页面，此外`window.postMessage`发送的数据不能是`Error`、`Function`或者html DOM元素，这是因为发送的数据统一经过结构化克隆算法克隆，而该算法不支持以上三种类型。
+
 # 参考资料
 1. [同源策略](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
 2. [iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe)
