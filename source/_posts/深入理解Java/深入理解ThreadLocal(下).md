@@ -4,11 +4,10 @@ date: 2019-04-29 00:15:13
 categories:
 - 深入理解Java
 tags:
-- original
 - 原创
 - java
 - multithread
-- threadlocal
+- ThreadLocal
 - thread safe
 - 线程
 - 线程安全

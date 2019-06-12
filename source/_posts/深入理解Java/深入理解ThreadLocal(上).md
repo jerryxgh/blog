@@ -2,11 +2,10 @@
 title: 深入理解ThreadLocal(上)
 date: 2019-04-27 22:00:41
 tags:
-- original
 - 原创
 - java
 - multithread
-- threadlocal
+- ThreadLocal
 - thread safe
 - 线程
 - 线程安全
