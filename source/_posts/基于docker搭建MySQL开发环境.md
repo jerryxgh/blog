@@ -48,7 +48,7 @@ MYSQL：ER_NOT_SUPPORTED_AUTH_MODE:Client does not support authentication protoc
 ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'test';
 ```
 
-## 安装配置sqlpad
+# 安装配置sqlpad
 习惯了用浏览器直接操作db，实在不像安装客户端，偶然发现了sqlpad，经过简单的配置就能用起来，简直惊为天人。首先安装sqlpad：
 ```sh
 npm install sqlpad -g
