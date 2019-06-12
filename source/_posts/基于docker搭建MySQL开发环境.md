@@ -15,6 +15,7 @@ Mac下安装docker，直接到docker官网下载docker-desktop安装包安装即
 ## docker镜像加速
 因为网络原因，从docker官方仓库下载镜像速度比较慢，可以通过阿里云进行镜像加速。方法是注册一个阿里云账号并登陆，访问[镜像加速器](https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors)获得阿里云分配的Docker加速器地址。如下图：
 ![阿里云docker镜像加速器](aliyun_mirror.jpg "阿里云docker镜像加速器")
+
 之后打开docker-desktop的preference，将上面获得的镜像加速链接，配置到docker中并生效：
 ![](docker_config.jpg "docker配置镜像加速地址")
 
