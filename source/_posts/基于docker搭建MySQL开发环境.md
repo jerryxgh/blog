@@ -62,6 +62,7 @@ sqlpad --dir ./ --port 3000 --passphrase secret-encryption-phrase
 
 点击上图的connections创建连接：
 ![](connection.jpg "添加mysql连接")
+
 可以用下方的test进行连接可用性测试，添加好连接之后，就可以使用啦，如下图：
 ![](example.jpg "sqlpad执行样例")
 
