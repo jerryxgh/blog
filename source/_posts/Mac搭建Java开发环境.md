@@ -119,7 +119,63 @@ so easy ;D，用下面的命令安装`http-server`即可：
 npm install http-server -g
 ```
 
+### fasd
+快速目录跳转，其中初始化的参数`posix-alias`提供了以下的alias命令：
+```sh
+alias a='fasd -a'        # any
+alias s='fasd -si'       # show / search / select
+alias d='fasd -d'        # directory
+alias f='fasd -f'        # file
+alias sd='fasd -sid'     # interactive directory selection
+alias sf='fasd -sif'     # interactive file selection
+alias z='fasd_cd -d'     # cd, same functionality as j in autojump
+alias zz='fasd_cd -d -i' # cd with interactive selection
+```
+使用样例：
+```sh
+f foo           # list frecent files matching foo
+a foo bar       # list frecent files and directories matching foo and bar
+f js$           # list frecent files that ends in js
+f -e vim foo    # run vim on the most frecent file matching foo
+mplayer `f bar` # run mplayer on the most frecent file matching bar
+z foo           # cd into the most frecent directory matching foo
+open `sf pdf`   # interactively select a file matching pdf and launch `open`
+```
+Mac下安装fasd的方法：
+```sh
+brew install fasd
+```
+如果你使用的bash，在`~/.bashrc`添加下面的一行以初始化fasd：
+```sh
+eval "$(fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install)"
+```
+上面的代码可能会增加bash的初始化时间，可以用下面的代码加速启动：
+```sh
+fasd_cache="$HOME/.fasd-init-bash"
+if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+  fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
+fi
+source "$fasd_cache"
+unset fasd_cache
+```
+如果你使用的是zsh + oh-my-zsh，修改oh-mh-zsh的fasd插件代码：
+```sh
+# oh-my-zsh/plugins/fasd/fasd.plugin.zsh
+if [ $commands[fasd] ]; then # check if fasd is installed
+  fasd_cache="${ZSH_CACHE_DIR}/fasd-init-cache"
+  if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+    fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
+  fi
+  source "$fasd_cache"
+  unset fasd_cache
+
+  alias v="f -e \"$EDITOR\""
+  alias o='a -e open_command'
+fi
+```
+
 # 参考资料
 1. mac安装Java：https://stackoverflow.com/questions/24342886/how-to-install-java-8-on-mac
 2. brew加速：https://lug.ustc.edu.cn/wiki/mirrors/help/brew.git
 3. mac删除jdk: https://stackoverflow.com/questions/19039752/removing-java-8-jdk-from-mac
+3. [fasd github地址](https://github.com/clvv/fasd)
