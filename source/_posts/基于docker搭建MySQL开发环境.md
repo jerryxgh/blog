@@ -48,6 +48,17 @@ MYSQL：ER_NOT_SUPPORTED_AUTH_MODE:Client does not support authentication protoc
 ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'test';
 ```
 
+mysql的官方镜像默认时区，会发现比中国时间晚了8小时，需要设置正确的时区：
+```sql
+@ 查看当前时区
+SHOW VARIABLES LIKE '%time_zone%';
+#全局设置时区为东8区，即北京时间
+SET GLOBAL time_zone = '+8:00';
+#仅修改当前会话时区
+SET time_zone = '+8:00';
+#立即生效修改
+FLUSH PRIVILEGES;
+```
 # 安装配置sqlpad
 习惯了用浏览器直接操作db，实在不像安装客户端，偶然发现了sqlpad，经过简单的配置就能用起来，简直惊为天人。首先安装sqlpad：
 ```sh
