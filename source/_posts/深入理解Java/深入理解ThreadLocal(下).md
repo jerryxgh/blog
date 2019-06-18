@@ -129,8 +129,8 @@ java.lang.OutOfMemoryError: Java heap space
 Thread->Thread$ThreadLocalMap->table->Thread$ThreadLocalMap#Entry，与我们之前代码的分析是一致的，此外，Entry的弱引用key（字段名称是referent，弱引用需要继承WeakReference实现，referent是WeakReference的属性）是null，表示这个`ThreadLocal`实例已经被GC垃圾回收掉了。
 
 # 总结
-`ThreadLocal`是Java提供的线程私有存储(Thread-local storage TLS)方案，本文尝试分析了其内部实现，相比C语言常用的TLS方案，对程序员更友好，此外为了提升性能，内部的Map使用了开放地址探测方式解决哈希冲突，为了避免不必要的内存占用，Map的Entry使用弱引用管理key。在使用`ThreadLocal`的时候，需要注意可能的内存泄漏问题，笔者使用了一个简单的例子复现了内存泄漏场景，在使用`ThreadLocal`的时候建议遵循两个原则：
-1. `ThreadLocal`实例一定是用于多线程共享的，否则不需要`ThreadLocal`的
+`ThreadLocal`是Java提供的线程私有存储(Thread-local storage TLS)方案，本文尝试分析了其内部实现，相比C语言常用的TLS方案，对程序员更友好，此外为了提升性能，内部的Map使用了开放地址探测方式解决哈希冲突，为了避免不必要的内存占用，Map的Entry使用弱引用管理key。在使用`ThreadLocal`的时候，需要注意可能的内存泄漏问题，笔者使用了一个简单的例子复现了内存泄漏场景，在使用`ThreadLocal`的时候建议遵循以下原则：
+1. `ThreadLocal`实例一定是用于多线程共享的，否则不需要`ThreadLocal`
 2. 在明确不需要使用某个`ThreadLocal`内变量的时候，可以显示调用`ThreadLocal.remove`方法释放内存。
 3. 作为一个变量容器，`ThreadLocal`也是泛型类型，帮助在编译器发现问题，具体使用的时候也一定要使用泛型
 
