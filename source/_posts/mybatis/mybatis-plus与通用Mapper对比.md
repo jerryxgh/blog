@@ -15,10 +15,51 @@ tags:
 回头看，无论是手写sql还是MBG代码生成，实际产出的代码，在模式上有大量的重复，这种重复是导致问题的根源，笔者在遇到通用Mapper和Mybatis-plus之前，也一直在苦苦寻觅解决方案，直到在一次偶然的交流中听到有通用Mapper这种库，CRUD的问题犹如拨云雾而见青天，原来还有这么优雅的解决方案！笔者在此感谢通用Mapper和Mybatis-plus的作者提供这么优秀的类库。笔者在实际项目中使用过这两个类库，结合笔者的观察，对这两个优秀的mybatis增强库进行比较，希望对大家的选型有帮助。
 
 # jdk兼容性
-通用Mapper支持Java1.6+，使用weekend库可以支持Java8+的语法，而mybatis-plus只支持1.8+。
+通用Mapper支持Java1.6+，使用weekend库可以支持Java1.8+的语法，而mybatis-plus只支持Java1.8+。
 
 # 创建-ID主键生成策略
-mybatis-plus支持5种主键策略，分别如下：
+通用mapper主键策略，核心是KeySql注解。
+1. 如果数据库支持字段自增并且JDBC驱动支持`getGeneratedKeys`，推荐使用（例如MySQL）。配置样例：
+```Java
+@Id
+@KeySql(useGeneratedKeys = true)
+private Long id;
+// 或者都使用JPA注解：
+@Id
+@GeneratedValue(generator = "JDBC")
+private Long id;
+```
+2. 如果数据库不支持`getGeneratedKeys`，但是支持自增，可以用下面的方式：
+```Java
+@Id
+//DEFAULT 需要配合 IDENTITY 参数（ORDER默认AFTER）
+@KeySql(dialect = IdentityDialect.DEFAULT)
+private Integer id;
+//建议直接指定数据库
+@Id
+@KeySql(dialect = IdentityDialect.MYSQL)
+private Integer id;
+
+
+// 目前通用Mapper支持了以下的数据库：
+DB2("VALUES IDENTITY_VAL_LOCAL()"),
+MYSQL("SELECT LAST_INSERT_ID()"),
+SQLSERVER("SELECT SCOPE_IDENTITY()"),
+CLOUDSCAPE("VALUES IDENTITY_VAL_LOCAL()"),
+DERBY("VALUES IDENTITY_VAL_LOCAL()"),
+HSQLDB("CALL IDENTITY()"),
+SYBASE("SELECT @@IDENTITY"),
+DB2_MF("SELECT IDENTITY_VAL_LOCAL() FROM SYSIBM.SYSDUMMY1"),
+INFORMIX("select dbinfo('sqlca.sqlerrd1') from systables where tabid=1"),
+```
+3. 显示指定获取id的sql，例如：
+```Java
+@Id
+@KeySql(sql = "select SEQ_ID.nextval from dual", order = ORDER.BEFORE)
+private Integer id;
+```
+
+而mybatis-plus用下面的方式支持5种主键策略，分别如下：
 1. IdType.AUTO
 数据库ID自增，当使用这种策略时，如果用户手工设置了`主键`的值，mybatis-plus不会使用，而是用数据库自增的方式生成，也就是在写入记录的时候用户无法手工指定`主键`值。
 2. IdType.NONE
@@ -38,16 +79,17 @@ return ((timestamp - twepoch) << timestampLeftShift)
 5. uuid
 使用uuid生成主键，忽略用户的输入，始终用算法生成主键，主键类型必须是字符串。
 
-mybatis-plus虽然主键策略有5种，但最实用的是AUTO和INPUT，INPUT应该是最常用的类型，绝对不能是NONE。
+mybatis-plus虽然主键策略有5种，但最实用的是AUTO和INPUT，INPUT应该是最常用的类型，尽量不要使用NONE。相比mybatis-plus，通用Mapper没有进一步封装外部生成主键的机制，而是集中在数据库自己生成主键上，如果使用外部方式生成主键，显示设置主键，通用Mapper自动跳过主键生成，直接使用用户设置的主键。整体上我认为通用Mapper的方式更合理，使用更简单。
 
 # 更新-null更新策略
-mybatis-plus默认只更新非null字段，之前有类似updateAllColumn的方法，但是在v2.1.6版本之后被移除了，现在可以通过手工拼接sql的方式做到更新字段为null。
-
-# 查询-复杂sql和分页
+mybatis-plus默认只更新非null字段，之前有类似updateAllColumn的方法，但是在v2.1.6版本之后被移除了，现在可以通过手工拼接sql的方式做到更新字段为null。而通用Mapper的默认update方法就会把null的字段设置成null，除非用updateXxxSelective方法，只更新有值的字段。
 
 
 # 项目活跃度
 通用Mapper的绝大部分代码是作者一个人贡献的，因此项目的整体性更好，从github代码提交来看一直在活跃维护中；mybatis-plus是由多人合作写成，近期也在快速变化中，从项目注释角度看略显混乱，但是非常活跃。
+
+# 注解选择
+通用Mapper尽量复用JPA的注解规范，在必须的地方提供自己定义的注解，mybatis-plus基本上都是自定义的注解，相对来讲对于熟悉JPA的同学，更容易学习通用Mapper。
 
 # 代码量
 包括单元测试代码情况下，通用Mapper的java文件数量是329，去除测试代码后的文件数量是272，去除测试代码后的代码行数是23401，也就是只有两万行代码，建议彻底看完，还是很精简的。
@@ -65,7 +107,7 @@ find . -name '*.java' | grep -v "Test" | xargs wc -l
 ```
 
 # 总结
-通用Mapper主要由一人写成，项目相对比较稳定，能够兼容JDK1.6+，此外也能用库支持1.8+的语法，而mybatis-plus由多人合作写成，项目活跃度较高，但是只支持java1.8+。
+通用Mapper主要由一人写成，项目相对比较稳定，能够兼容JDK1.6+，此外也能用库支持1.8+的语法，而mybatis-plus由多人合作写成，项目活跃度较高，但是只支持java1.8+；此外通用Mapper的代码量较少，在主键策略、注解选择、接口设计上感觉更合理，不清楚为什么在外部的反响反而并不如mybatis-plus，这也算是一桩怪事吧。
 
 # 参考资料
 1. [Mybatis代码生成器](http://www.mybatis.org/generator/)
